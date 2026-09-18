@@ -2,7 +2,14 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Miss+Fajardose&display=swap">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #ede8e0; display: flex; flex-direction: column; align-items: center; }
+  body { background: #fff; display: flex; flex-direction: column; align-items: center; }
+  @media (min-width: 541px) {
+    body { background: #ede8e0; }
+  }
+  @media (max-width: 540px) {
+    body { align-items: stretch; }
+    .scene, .slideshow-wrap, .frame { max-width: 100% !important; }
+  }
 
   .scene {
     width: 100%;
@@ -165,14 +172,22 @@
   max-width: 540px;
   background: #1a1612;
   overflow: hidden;
-  aspect-ratio: 4/5;
   position: relative;
   cursor: pointer;
+  padding-bottom: 125%; /* 4:5 ratio fallback for old iOS */
+  height: 0;
 }
-.slideshow { position:relative; width:100%; height:100%; }
+@supports (aspect-ratio: 4/5) {
+  .slideshow-wrap {
+    aspect-ratio: 4/5;
+    padding-bottom: 0;
+    height: auto;
+  }
+}
+.slideshow { position:absolute; top:0; left:0; width:100%; height:100%; }
 .slide {
   position: absolute;
-  inset: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
